@@ -2,11 +2,11 @@ import React from "react";
 import GoogleMapReact from "google-map-react";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
-import Rating from "@material-ui/lab";
+import { Rating } from "@material-ui/lab";
 
 import useStyles from "./styles";
 
-const Map = ({ setCoords, setBounds, coords }) => {
+const Map = ({ setCoords, setBounds, coords, places }) => {
   const classes = useStyles();
 
   const isMobile = useMediaQuery("(min-width: 600px)");
@@ -26,7 +26,40 @@ const Map = ({ setCoords, setBounds, coords }) => {
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
         onChildClick={""}
-      ></GoogleMapReact>
+      >
+        {places?.map((place, index) => (
+          <div
+            className={classes.markerContainer}
+            lat={Number(place.latitude)}
+            lng={Number(place.longitude)}
+            key={index}
+          >
+            {!isMobile ? (
+              <LocationOnOutlinedIcon fontSize="large" color="primary" />
+            ) : (
+              <Paper elevation={3} className={classes.paper}>
+                <Typography
+                  gutterBottom
+                  className={classes.typography}
+                  variant="subtitle2"
+                >
+                  {place.name}
+                </Typography>
+                <img
+                  className={classes.pointer}
+                  src={
+                    place.photo
+                      ? place.photo.images.large.url
+                      : "https://media-cdn.tripadvisor.com/media/photo-s/1b/67/cc/f8/chestnut-restaurant.jpg"
+                  }
+                  alt={place.name}
+                />
+                <Rating size="small" value={place.rating} readOnly />
+              </Paper>
+            )}
+          </div>
+        ))}
+      </GoogleMapReact>
     </div>
   );
 };
