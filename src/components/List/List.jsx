@@ -13,13 +13,12 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
 import useStyles from "./styles";
 
-const List = () => {
+const List = ({ places }) => {
   const classes = useStyles();
 
   const [type, setType] = useState("restaurants");
   const [rating, setRating] = useState("All");
 
-  const places = [{ name: "Museum" }, { name: "Theater" }, { name: "Circus" }];
   return (
     <div className={classes.container}>
       <Typography variant="h5">
