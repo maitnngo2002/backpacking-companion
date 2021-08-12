@@ -6,7 +6,14 @@ import { Rating } from "@material-ui/lab";
 
 import useStyles from "./styles";
 
-const Map = ({ setCoords, setBounds, setChildClicked, coords, places }) => {
+const Map = ({
+  setCoords,
+  setBounds,
+  setChildClicked,
+  coords,
+  places,
+  weatherData,
+}) => {
   const classes = useStyles();
 
   const isMobile = useMediaQuery("(min-width: 600px)");
@@ -57,6 +64,15 @@ const Map = ({ setCoords, setBounds, setChildClicked, coords, places }) => {
                 <Rating size="small" value={place.rating} readOnly />
               </Paper>
             )}
+          </div>
+        ))}
+        {weatherData?.list?.map((data, index) => (
+          <div key={index} lat={data.coords.lat} lng={data.coords.lon}>
+            <img
+              height={100}
+              src={`https://openweathermap.ord/image/w/${data.weather[0].icon.png}`}
+              alt="current weather"
+            />
           </div>
         ))}
       </GoogleMapReact>
