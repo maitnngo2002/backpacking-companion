@@ -5,7 +5,7 @@ import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import { Rating } from "@material-ui/lab";
 
 import useStyles from "./styles";
-
+import mapStyles from "./mapStyles";
 const Map = ({
   setCoords,
   setBounds,
@@ -26,7 +26,11 @@ const Map = ({
         center={coords}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
-        options={""}
+        options={{
+          disableDefaultUI: true,
+          zoomControl: true,
+          styles: mapStyles,
+        }}
         onChange={(e) => {
           console.log(e);
           setCoords({ lat: e.center.lat, lng: e.center.lng });
@@ -66,15 +70,16 @@ const Map = ({
             )}
           </div>
         ))}
-        {weatherData?.list?.map((data, index) => (
-          <div key={index} lat={data.coords.lat} lng={data.coords.lon}>
-            <img
-              height={100}
-              src={`https://openweathermap.ord/image/w/${data.weather[0].icon.png}`}
-              alt="current weather"
-            />
-          </div>
-        ))}
+        {weatherData?.list?.length &&
+          weatherData.list.map((data, index) => (
+            <div key={index} lat={data.coords.lat} lng={data.coords.lon}>
+              <img
+                height={100}
+                src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                alt="current weather"
+              />
+            </div>
+          ))}
       </GoogleMapReact>
     </div>
   );
